@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	font-family: 'Sora Variable', sans-serif;
+}
+
+.w-default {
+	@apply w-[80%] max-w-[2000px] mx-auto;
+}
+
+.w-nav {
+	@apply w-[95%] max-w-[2000px] mx-auto;
+}
