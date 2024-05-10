@@ -3,19 +3,20 @@
     import "@phosphor-icons/web/fill";
 
     import Chart, { type ChartTypeRegistry } from "chart.js/auto";
-    import { initWebSocket } from "./lib/webSocketEvents";
+    import { initWebSocket } from "./lib/communication/webSocketEvents";
     import annotationPlugin from "chartjs-plugin-annotation";
     import { onMount } from "svelte";
     import Navigation from "./components/Navigation.svelte";
     import Footer from "./components/Footer.svelte";
     import { appState } from "./lib/stores";
-    import { chartConfig } from "./lib/chartConfig";
-    import { setChartData, setChartMoistureThreshold } from "./lib/chartUtils";
-    import type { Measurement } from "./lib/measurement";
+    import { chartConfig } from "./lib/chart/chartConfig";
+    import { setChartData, setChartMoistureThreshold } from "./lib/chart/chartUtils";
+    import type { Measurement } from "./lib/models/measurement";
     import ModePage from "./components/modes/ModePage.svelte";
-    import { modes } from "./lib/modes";
+    import { modes } from "./lib/models/modes";
     import ManualPage from "./components/modes/ManualPage.svelte";
     import ModeSelector from "./components/modes/ModeSelector.svelte";
+    import { deserializeAction } from "./lib/communication/parsing";
 
     Chart.register(annotationPlugin);
 

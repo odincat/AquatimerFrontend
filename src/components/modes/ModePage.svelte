@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Mode } from "../../lib/modes";
+    import type { Mode } from "../../lib/models/modes";
     import { appState } from "../../lib/stores";
 
     export let mode: Mode;

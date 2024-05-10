@@ -1,6 +1,6 @@
 <script lang="ts">
     import { fade } from "svelte/transition";
-    import { modes } from "../../lib/modes";
+    import { modes } from "../../lib/models/modes";
     import { appState } from "../../lib/stores";
 
     export let previewId: number;

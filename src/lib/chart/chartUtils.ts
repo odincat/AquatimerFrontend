@@ -1,5 +1,5 @@
 import type { Chart, ChartTypeRegistry } from "chart.js";
-import type { Measurement } from "./measurement";
+import type { Measurement } from "../models/measurement";
 
 type CChart = Chart<keyof ChartTypeRegistry, number[], string>;
 

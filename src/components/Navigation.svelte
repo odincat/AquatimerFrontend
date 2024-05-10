@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import ConnectionStatus from "./ConnectionStatus.svelte";
-    import { modes } from "../lib/modes";
+    import { modes } from "../lib/models/modes";
     import { appState } from "../lib/stores";
 
     $: activeMode = modes[$appState.activeModeId];

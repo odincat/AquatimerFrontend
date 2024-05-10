@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { WebSocketConnection } from "../lib/appState";
+    import type { WebSocketConnection } from "../lib/models/appState";
     import { appState } from "../lib/stores";
 
     $: pingColor = getPingColor($appState.connectionStatus);

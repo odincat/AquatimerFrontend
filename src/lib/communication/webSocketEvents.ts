@@ -1,4 +1,4 @@
-import { appState } from "./stores";
+import { appState } from "../stores";
 
 export function initWebSocket(url: string): WebSocket {
     var ws = new WebSocket(url);
