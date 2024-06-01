@@ -15,8 +15,10 @@
     import ModePage from "./components/modes/ModePage.svelte";
     import { modes } from "./lib/models/modes";
     import ManualPage from "./components/modes/ManualPage.svelte";
+    import TimerPage from "./components/modes/TimerPage.svelte";
     import ModeSelector from "./components/modes/ModeSelector.svelte";
-    import { deserializeAction } from "./lib/communication/parsing";
+    import SmartPage from "./components/modes/SmartPage.svelte";
+    import { loadAccessToken } from "./lib/accessToken";
 
     Chart.register(annotationPlugin);
 
@@ -45,15 +47,83 @@
             { timestamp: "18:02", moisture: 1983 },
             { timestamp: "18:32", moisture: 2117 },
             { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
+            { timestamp: "19:02", moisture: 2250 },
         ];
 
         setChartData(chart, testHistoryData);
+
+        loadAccessToken();
 
         // will reconnect automatically
         $appState.wsClient = initWebSocket($appState.wsUrl);
     });
 
     $: activeModeId = $appState.activeModeId;
+
+    $: $appState.smartThreshold && setChartMoistureThreshold(chart, $appState.smartThreshold)
 
     let modePreviewId = activeModeId ?? 0;
 </script>
@@ -81,11 +151,11 @@
 
         <ModePage mode={modes[modePreviewId]}>
             {#if modePreviewId === 0}
-                    <ManualPage />
+                <ManualPage />
             {:else if modePreviewId === 1}
-                timer page
+                <TimerPage />
             {:else if modePreviewId === 2}
-                smart page
+                <SmartPage />
             {/if}
         </ModePage>
     </div>

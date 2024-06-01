@@ -19,11 +19,16 @@
                     Active
                 </div>
             {:else}
-                <button on:click={updateActiveMode} class="bg-gray-500 text-white rounded-sm flex items-center gap-2 p-2 font-bold w-full">
+                <button disabled={$appState.pumpActive} class:disabled-area={$appState.pumpActive} on:click={updateActiveMode} class="bg-gray-500 text-white rounded-sm flex items-center gap-2 p-2 font-bold w-full">
                     <i class="ph-fill ph-arrow-fat-right"></i>
                     Switch
                 </button>
             {/if}
+
+            <!-- <button on:click={updateActiveMode} class="bg-gray-500 text-white rounded-sm flex items-center gap-2 px-2 py-1 font-bold w-full mt-4 text-sm"> -->
+            <!--     <i class="ph-fill ph-floppy-disk text-lg"></i> -->
+            <!--     Save settings -->
+            <!-- </button> -->
         </div>
 
         <div class="col-span-2 pl-4">
@@ -31,7 +36,7 @@
         </div>
     </div>
 
-    <div class="">
+    <div class="flex flex-col gap-8">
         <slot />
     </div>
 </div>

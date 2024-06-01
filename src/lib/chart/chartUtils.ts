@@ -17,7 +17,7 @@ export function pushChartData(chart: CChart, measurements: Measurement[]) {
 
 export function setChartData(chart: CChart, measurements: Measurement[]) {
     if (chart == null || chart.data.labels == null) {
-        throw new Error("chart undefined");
+        return;
     }
 
     chart.data.labels = measurements.map(m => m.timestamp);
@@ -29,7 +29,7 @@ export function setChartData(chart: CChart, measurements: Measurement[]) {
 
 export function setChartMoistureThreshold(chart: CChart, value: number) {
     if (chart == null || chart.data.labels == null) {
-        throw new Error("chart undefined");
+        return;
     }
 
     chart.options.plugins.annotation.annotations.thresholdLine.yMin = value;

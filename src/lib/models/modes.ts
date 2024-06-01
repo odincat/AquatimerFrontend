@@ -9,13 +9,13 @@ export interface Mode {
 export const modes: Mode[] = [
     {
         name: "Manual",
-        description: "Lorem ipsum ipsum ipsum ipsumipsum ipsumipsum",
+        description: "Allows manual watering. Please note that it takes a while for the moisture to settle in and get picked up by the sensor.",
         id: 0,
         iconClass: "ph-fill ph-toggle-right",
         colorCode: "#0ea5e9"
     },
     {
-        name: "Timer",
+        name: "Timed",
         description: "Lorem ipsum",
         id: 1,
         iconClass: "ph-fill ph-timer",
@@ -27,5 +27,5 @@ export const modes: Mode[] = [
         id: 2,
         iconClass: "ph-fill ph-cpu",
         colorCode: "#0369a1"
-    },
+    }
 ];

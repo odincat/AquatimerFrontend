@@ -20,12 +20,12 @@
 
                 <i class="{mode.iconClass} text-2xl" style="color: {mode.colorCode};"></i>
 
-                <div class="text" style="color: {mode.colorCode};">
+                <div style="color: {mode.colorCode};">
                     {mode.name}
                 </div>
 
                 {#if $appState.activeModeId === mode.id}
-                    <div transition:fade class="absolute w-full h-1 bg-green-500 bottom-0"></div>
+                    <div transition:fade class="absolute w-full h-1 bg-green-500 bottom-0" class:animate-pulse={$appState.pumpActive}></div>
                 {/if}
             </button>
         {/each}
