@@ -1,9 +1,60 @@
 <script>
+    import { findMinMaxAvgValues } from "$lib/models/measurement";
+    import { appState } from "$lib/stores";
     import SettingsWindow from "./SettingsWindow.svelte";
+
+    $: minMaxValues = findMinMaxAvgValues($appState.measurements);
 </script>
 
-<footer class="mt-auto w-nav px-1 py-1 outline outline-1 rounded-sm mb-4 flex items-center">
-  Footer here
+<footer class="mt-auto w-nav px-4 py-2 outline outline-1 rounded-sm mb-4 flex items-center gap-4 shadow-md">
+  <div class="flex items-center text-cyan-400 gap-2">
+    <i class="ph ph-drop text-2xl"></i>
+
+    <div class="grid grid-cols-statistics gap-2">
+      <div>
+        max: 
+      </div>
+
+      <b>{minMaxValues.moisture.max} %</b>
+
+      <div>
+        avg:
+      </div>
+
+      <b>{minMaxValues.moisture.avg} %</b>
+
+      <div>
+        min: 
+      </div>
+
+      <b>{minMaxValues.moisture.max} %</b>
+    </div>
+  </div>
+
+  <div class="flex items-center text-orange-600 gap-2">
+    <i class="ph ph-thermometer text-2xl"></i>
+
+    <div class="grid grid-cols-statistics gap-2">
+      <div>
+        max: 
+      </div>
+
+      <b>{minMaxValues.temperature.max} °C</b>
+
+      <div>
+        avg:
+      </div>
+
+      <b>{minMaxValues.temperature.avg} °C</b>
+
+      <div>
+        min: 
+      </div>
+
+      <b>{minMaxValues.temperature.max} °C</b>
+    </div>
+  </div>
+
   <div class="ml-auto">
     <SettingsWindow />
   </div>

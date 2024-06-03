@@ -18,7 +18,8 @@ const config = {
 		},
 		extend: {
       gridTemplateColumns: {
-        main: "0.7fr 0.3fr"
+        main: "0.7fr 0.3fr",
+		statistics: "auto auto"
       },
 			colors: {
 				border: "hsl(var(--border) / <alpha-value>)",

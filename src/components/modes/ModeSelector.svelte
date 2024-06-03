@@ -12,10 +12,10 @@
 </script>
 
 <div>
-    <div class="w-full grid grid-cols-3 border rounded-md overflow-hidden">
+    <div class="w-full grid grid-cols-3 border rounded-md overflow-hidden bg-slate-200 p-1 gap-1">
         {#each modes as mode, index}
             <button on:click={() => setModePreview(mode.id)}
-                class="relative w-full flex flex-col gap-1 items-center transition-colors p-2 hover:bg-gray-100"
+                class="relative w-full flex flex-col gap-1 items-center transition-colors p-2 hover:bg-slate-100 rounded-md overflow-hidden"
                 class:active={previewId === mode.id}>
 
                 <i class="{mode.iconClass} text-2xl" style="color: {mode.colorCode};"></i>
@@ -34,10 +34,10 @@
 
 <style lang="postcss">
     .active {
-        @apply bg-gray-200;
+        @apply bg-white shadow-md;
     }
 
     .active:hover {
-        @apply bg-gray-200;
+        @apply bg-white;
     }
 </style>

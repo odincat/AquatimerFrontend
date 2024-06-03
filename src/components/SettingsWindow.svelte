@@ -24,9 +24,10 @@
  
 <Dialog.Root>
   <Dialog.Trigger>
-        <button class="bg-gray-900 aspect-square flex items-center justify-center p-1 rounded-md">
-            <i class="ph-fill ph-gear text-white text-lg"></i>
-        </button>
+      <Button>
+          <i class="ph-fill ph-gear text-white text-lg mr-2"></i>
+          Settings
+      </Button>
     </Dialog.Trigger>
 
   <Dialog.Content>
@@ -47,7 +48,9 @@
             <Label for="access-token" class="text-right">Access Token</Label>
             <Input id="access-token" bind:value={$appState.accessToken} on:input={onAccessTokenInput} type={accessTokenInputType} class="col-span-3" />
             <Button on:click={toggleAccessTokenVisibility}>
-                <i class="ph-fill ph-eye text-xl"></i>
+                <i class="ph ph-eye text-xl"
+                class:ph-eye={!accessTokenShown}
+                class:ph-eye-slash={accessTokenShown}></i>
             </Button>
           </div>
         </div>

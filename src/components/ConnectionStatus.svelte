@@ -18,7 +18,7 @@
 </script>
 
 <div class="flex items-center">
-    <div class="flex items-center text-sm">
+    <div class="flex items-center">
         <div class="w-3 h-3 rounded-full mr-2" style="background-color: {pingColor};">
             <div class="w-3 h-3 rounded-full animate-ping" style="background-color: {pingColor};"></div>
         </div>

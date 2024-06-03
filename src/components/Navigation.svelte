@@ -20,35 +20,44 @@
             observer.observe(navbar);
         }
     });
+
+    $: currentMeasurement = $appState.measurements.at(-1)
 </script>
 
-<nav bind:this={navbar} class:stuck={stuck} class="sticky transition-all duration-200 top-[-1px] flex items-center w-[95%] mx-auto my-4 rounded-sm outline outline-1 outline-gray-700 z-50">
-    <div class="h-full bg-gradient-to-r from-sky-500 to-sky-700 text-white font-bold px-2 py-1">
+<nav bind:this={navbar} class:stuck={stuck} class="sticky transition-all duration-200 top-[-1px] flex items-center w-[95%] mx-auto my-4 rounded-sm outline outline-1 outline-gray-700 z-50 shadow-md">
+    <div class="h-full text-lg bg-gradient-to-r from-sky-500 to-sky-700 text-white font-bold px-2 py-1">
         <h1>Aquatimer</h1>
     </div>
 
     <div class="px-2 py-1 flex items-center w-full gap-4">
-        <div class="flex items-center gap-1">
-            <i class="ph-fill ph-drop text-xl text-blue-500"></i>
-            <div class="text-sm text-blue-500">
-                1200
-            </div>
+        <div class="flex items-center gap-1 text-cyan-400">
+            <i class="ph ph-drop text-xl"></i>
+            <b>
+                {currentMeasurement?.moisture} %
+            </b>
+        </div>
+
+        <div class="flex items-center gap-1 text-orange-600">
+            <i class="ph ph-thermometer text-xl"></i>
+            <b>
+                {currentMeasurement?.temperature} °C
+            </b>
         </div>
 
         <div class="flex items-center gap-1">
             <i class="{activeMode.iconClass} text-xl" style="color: {activeMode.colorCode};"></i>
-            <div class="text-sm" style="color: {activeMode.colorCode};">
+            <div style="color: {activeMode.colorCode};">
                 {activeMode.name}
             </div>
         </div>
 
-        <div class="flex items-center gap-1" class:text-orange-500={pumpActive === false} class:text-green-500={pumpActive === true}>
-            <i class="ph-fill  text-xl" class:ph-lightning={pumpActive} class:ph-lightning-slash={!pumpActive}></i>
-            <div class="text-sm">
+        <div class="flex items-center gap-1" class:text-slate-500={pumpActive === false} class:text-green-500={pumpActive === true}>
+            <i class="ph-fill text-xl" class:animate-pulse={pumpActive} class:ph-lightning={pumpActive} class:ph-lightning-slash={!pumpActive}></i>
+            <div>
                 {#if $appState.pumpActive}
-                    Pump active
+                    Pump Active
                 {:else}
-                    Pump inactive
+                    Pump Inactive
                 {/if}
             </div>
         </div>
