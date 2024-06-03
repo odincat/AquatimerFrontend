@@ -1,5 +1,5 @@
 export interface Message<T> {
     actionName: string;
-    payload: T;
+    payload?: T;
     accessToken?: string;
 }
