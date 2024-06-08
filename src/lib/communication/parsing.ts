@@ -18,7 +18,7 @@ export function serializeMessage<T>(actionName: string, payload: T | undefined =
     let message: Message<T> = {
         actionName,
         payload,
-        accessToken: as.accessToken
+        key: as.accessToken
     };
 
     return JSON.stringify(message);

@@ -10,50 +10,47 @@
   <div class="flex items-center text-cyan-400 gap-2">
     <i class="ph ph-drop text-2xl"></i>
 
-    <div class="grid grid-cols-statistics gap-2">
+    <div class="flex items-center justify-center gap-2">
       <div>
-        max: 
+        min: 
+        <b>{minMaxValues.moisture.min} %</b>
       </div>
-
-      <b>{minMaxValues.moisture.max} %</b>
 
       <div>
         avg:
+        <b>{minMaxValues.moisture.avg} %</b>
       </div>
 
-      <b>{minMaxValues.moisture.avg} %</b>
-
-      <div>
-        min: 
-      </div>
-
-      <b>{minMaxValues.moisture.max} %</b>
-    </div>
-  </div>
-
-  <div class="flex items-center text-orange-600 gap-2">
-    <i class="ph ph-thermometer text-2xl"></i>
-
-    <div class="grid grid-cols-statistics gap-2">
       <div>
         max: 
+        <b>{minMaxValues.moisture.max} %</b>
       </div>
-
-      <b>{minMaxValues.temperature.max} °C</b>
-
-      <div>
-        avg:
-      </div>
-
-      <b>{minMaxValues.temperature.avg} °C</b>
-
-      <div>
-        min: 
-      </div>
-
-      <b>{minMaxValues.temperature.max} °C</b>
     </div>
   </div>
+
+  <!-- <div class="flex items-center text-orange-600 gap-2"> -->
+  <!--   <i class="ph ph-thermometer text-2xl"></i> -->
+  <!---->
+  <!--   <div class="grid grid-cols-statistics gap-2"> -->
+  <!--     <div> -->
+  <!--       max:  -->
+  <!--     </div> -->
+  <!---->
+  <!--     <b>{minMaxValues.temperature.max} °C</b> -->
+  <!---->
+  <!--     <div> -->
+  <!--       avg: -->
+  <!--     </div> -->
+  <!---->
+  <!--     <b>{minMaxValues.temperature.avg} °C</b> -->
+  <!---->
+  <!--     <div> -->
+  <!--       min:  -->
+  <!--     </div> -->
+  <!---->
+  <!--     <b>{minMaxValues.temperature.max} °C</b> -->
+  <!--   </div> -->
+  <!-- </div> -->
 
   <div class="ml-auto">
     <SettingsWindow />

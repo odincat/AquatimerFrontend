@@ -3,12 +3,29 @@
     import ConnectionStatus from "./ConnectionStatus.svelte";
     import { modes } from "../lib/models/modes";
     import { appState } from "../lib/stores";
+    import WateringStopwatch from "./modes/WateringStopwatch.svelte";
+    import type { WateringStopwatchExports } from "./modes/WateringStopwatch.svelte";
 
-    $: activeMode = modes[$appState.activeModeId];
+    $: activeMode = modes.find(m => m.id === $appState.activeModeId) ?? modes[0];
     $: pumpActive = $appState.pumpActive;
 
     let navbar: Element | null = null;
     let stuck = false;
+    let stopwatch: WateringStopwatchExports | null;
+
+    let resetTimeout: number;
+
+    appState.subscribe(as => {
+        if (as.pumpActive) {
+            stopwatch?.start();
+            clearTimeout(resetTimeout)
+        } else {
+            stopwatch?.stop();
+            resetTimeout = setTimeout(() => {
+                stopwatch?.reset();
+            }, 20000);
+        }
+    })
 
     onMount(() => {
         if (navbar != null) {
@@ -33,16 +50,16 @@
         <div class="flex items-center gap-1 text-cyan-400">
             <i class="ph ph-drop text-xl"></i>
             <b>
-                {currentMeasurement?.moisture} %
+                {currentMeasurement?.moisture ?? 0} %
             </b>
         </div>
 
-        <div class="flex items-center gap-1 text-orange-600">
-            <i class="ph ph-thermometer text-xl"></i>
-            <b>
-                {currentMeasurement?.temperature} °C
-            </b>
-        </div>
+        <!-- <div class="flex items-center gap-1 text-orange-600"> -->
+        <!--     <i class="ph ph-thermometer text-xl"></i> -->
+        <!--     <b> -->
+        <!--         {currentMeasurement?.temperature} °C -->
+        <!--     </b> -->
+        <!-- </div> -->
 
         <div class="flex items-center gap-1">
             <i class="{activeMode.iconClass} text-xl" style="color: {activeMode.colorCode};"></i>
@@ -60,6 +77,8 @@
                     Pump Inactive
                 {/if}
             </div>
+
+            <!-- <WateringStopwatch bind:this={$appState.wateringStopwatch} /> -->
         </div>
 
         <div class="ml-auto flex gap-4">
@@ -71,7 +90,7 @@
 <style>
     .stuck {
         width: 100%;
-        background-color: rgb(220 220 220 / 0.8);
+        background-color: rgb(230 230 230 / 0.8);
         backdrop-filter: blur(2px);
         border-radius: 0px;
     }

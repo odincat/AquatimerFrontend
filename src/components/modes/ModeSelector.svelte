@@ -3,10 +3,9 @@
     import { modes } from "../../lib/models/modes";
     import { appState } from "../../lib/stores";
 
-    export let previewId: number;
+    export let previewId: string;
 
-    function setModePreview(id: number) {
-        // TODO: send ws request to server
+    function setModePreview(id: string) {
         previewId = id;
     }
 </script>

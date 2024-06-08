@@ -27,14 +27,14 @@ export const chartConfig = {
         tension: 0.1,
         yAxisID: 'y'
       },
-      {
-        label: 'Temperature',
-        data: [],
-        fill: false,
-        borderColor: TEMPERATURE_LINE_COLOR,
-        tension: 0.1,
-        yAxisID: 'y2',
-      },
+      // {
+      //   label: 'Temperature',
+      //   data: [],
+      //   fill: false,
+      //   borderColor: TEMPERATURE_LINE_COLOR,
+      //   tension: 0.1,
+      //   yAxisID: 'y2',
+      // },
     ]
   },
   options: {
@@ -59,29 +59,29 @@ export const chartConfig = {
           },
         }
       },
-      y2: {
-        type: "linear",
-        title: {
-          text: "Temperature",
-          display: true,
-          color: TEMPERATURE_LINE_COLOR,
-          font: {
-            size: AXIS_LABEL_FONTSIZE
-          },
-          padding: {
-            bottom: AXIS_LABEL_PADDING
-          }
-        },
-        position: 'right',
-        grid: {
-          drawOnChartArea: false, // only want the grid lines for one axis to show up
-        },
-        ticks: {
-          callback(value, index, ticks) {
-            return `${value} °C`
-          }
-        }
-      }
+      // y2: {
+      //   type: "linear",
+      //   title: {
+      //     text: "Temperature",
+      //     display: true,
+      //     color: TEMPERATURE_LINE_COLOR,
+      //     font: {
+      //       size: AXIS_LABEL_FONTSIZE
+      //     },
+      //     padding: {
+      //       bottom: AXIS_LABEL_PADDING
+      //     }
+      //   },
+      //   position: 'right',
+      //   grid: {
+      //     drawOnChartArea: false, // only want the grid lines for one axis to show up
+      //   },
+      //   ticks: {
+      //     callback(value, index, ticks) {
+      //       return `${value} °C`
+      //     }
+      //   }
+      // }
     },
 
     interaction: {

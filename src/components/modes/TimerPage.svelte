@@ -1,96 +1,78 @@
 <script lang="ts">
+    import Slider from "$lib/shadcn/ui/slider/slider.svelte";
     import { modes } from "../../lib/models/modes";
     import { appState } from "../../lib/stores";
 
+    export let debouncedSave: () => void;
+
     let mode = modes[1];
 
-    const MAX_DURATION_SECONDS = 30;
+    const MIN_INTERVAL = 12;
+    const MAX_INTERVAL = 24 * 7;
 
-    function decrementWateringInterval() {
-        if ($appState.timerIntervalHours - 1 > 0) {
-            $appState.timerIntervalHours--;
-            saveWateringInterval();
+    const MIN_WATERING_DURATION_SECONDS = 1;
+    const MAX_WATERING_DURATION_SECONDS = 20;
+
+    function onIntervalChange(newValues: number[]) {
+        let newInterval = newValues[0];
+
+        if (newInterval == null) {
+            return;
         }
+
+        $appState.timerIntervalHours = newInterval;
+
+        debouncedSave();
     }
 
-    function incrementWateringInterval() {
-        $appState.timerIntervalHours++;
-        saveWateringInterval();
-    }
+    function onWateringDurationChange(newValues: number[]) {
+        let newDuration = newValues[0];
 
-    function saveWateringInterval() {
-        console.log($appState.timerIntervalHours);
-    }
-
-
-    function decrementWateringDuration() {
-        if ($appState.timerWateringDurationSeconds - 1 > 0) {
-            $appState.timerWateringDurationSeconds--;
-            saveWateringDuration();
+        if (newDuration == null) {
+            return;
         }
-    }
 
-    function incrementWateringDuration() {
-        if ($appState.timerWateringDurationSeconds + 1 <= MAX_DURATION_SECONDS) {
-            $appState.timerWateringDurationSeconds++;
-            saveWateringDuration();
-        }
-    }
+        $appState.timerWateringDurationSeconds = newDuration;
 
-    function saveWateringDuration() {
-        console.log($appState.timerWateringDurationSeconds);
+        debouncedSave();
     }
-
 </script>
 
-<div class="flex">
-    <div>
-        <div class="max-w-xs mx-auto">
-            <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900">
-                Interval
-                <i class="text-gray-500">in h</i>
-            </label>
-            <div class="relative flex items-center max-w-[8rem]">
-                <button on:click={decrementWateringInterval} type="button" id="decrement-button" data-input-counter-decrement="quantity-input" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11">
-                    <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                    </svg>
-                </button>
+<div class="relative">
+    <label for="medium-range" class="block mb-2 text-sm font-medium text-gray-900">
+        Interval
+        <span class="text-gray-500">
+            &mdash;
+            {#if $appState.timerIntervalHours >= 24}
+                {Math.floor($appState.timerIntervalHours / 24)}d
+                {#if Math.floor($appState.timerIntervalHours % 24) != 0}
+                {Math.floor($appState.timerIntervalHours % 24)}h
+                {/if}
+                {:else}
+                {$appState.timerIntervalHours}h
+            {/if}
+        </span>
+    </label>
 
-                <input min="1" bind:value={$appState.timerIntervalHours} type="text" id="quantity-input" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="999" required />
+    <Slider class="cursor-pointer" value={[$appState.timerIntervalHours]} onValueChange={onIntervalChange} step={12} min={MIN_INTERVAL} max={MAX_INTERVAL} />
 
-                <button on:click={incrementWateringInterval} type="button" id="increment-button" data-input-counter-increment="quantity-input" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11">
-                    <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                    </svg>
-                </button>
-            </div>
-            <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500">Recommendation here</p>
-        </div>
-    </div>
+    <span class="text-sm text-gray-500 absolute start-0 -bottom-6">{MIN_INTERVAL}h</span>
+    <span class="text-sm text-gray-500 absolute end-0 -bottom-6">{MAX_INTERVAL / 24}d</span>
 </div>
 
-<div>
-    <div class="max-w-xs mx-auto">
-        <label for="quantity-input" class="block mb-2 text-sm font-medium text-gray-900">
-            Duration
-            <i class="text-gray-500">in s</i>
-        </label>
-        <div class="relative flex items-center max-w-[8rem]">
-            <button on:click={decrementWateringDuration} type="button" id="decrement-button" data-input-counter-decrement="quantity-input" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-s-lg p-3 h-11">
-                <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 2">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h16"/>
-                </svg>
-            </button>
+<div class="relative">
+    <label for="medium-range" class="block mb-2 text-sm font-medium text-gray-900">
+        Duration
+        <span class="text-gray-500">
+            &mdash;
+            {$appState.timerWateringDurationSeconds}s
+            &asymp;
+            {$appState.timerWateringDurationSeconds * $appState.flowRateGPS}g
+        </span>
+    </label>
 
-            <input min="1" max={MAX_DURATION_SECONDS} bind:value={$appState.timerWateringDurationSeconds} type="text" id="quantity-input" data-input-counter aria-describedby="helper-text-explanation" class="bg-gray-50 border-x-0 border-gray-300 h-11 text-center text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5" placeholder="999" required />
+    <Slider class="cursor-pointer" value={[$appState.timerWateringDurationSeconds]} onValueChange={onWateringDurationChange} step={1} min={MIN_WATERING_DURATION_SECONDS} max={MAX_WATERING_DURATION_SECONDS} />
 
-            <button on:click={incrementWateringDuration} type="button" id="increment-button" data-input-counter-increment="quantity-input" class="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-e-lg p-3 h-11">
-                <svg class="w-3 h-3 text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                </svg>
-            </button>
-        </div>
-        <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500">Recommendation here</p>
-    </div>
+    <span class="text-sm text-gray-500 absolute start-0 -bottom-6">{MIN_WATERING_DURATION_SECONDS}s</span>
+    <span class="text-sm text-gray-500 absolute end-0 -bottom-6">{MAX_WATERING_DURATION_SECONDS}s</span>
 </div>

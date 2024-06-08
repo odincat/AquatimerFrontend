@@ -18,56 +18,52 @@
     import TimerPage from "./components/modes/TimerPage.svelte";
     import ModeSelector from "./components/modes/ModeSelector.svelte";
     import SmartPage from "./components/modes/SmartPage.svelte";
-    import { loadAccessToken } from "./lib/accessToken";
-
-    var chart: Chart<keyof ChartTypeRegistry, number[], string> | null = null;
+    import toast, { Toaster } from "svelte-french-toast";
+    import { loadLocalSettings, saveLocalSettings } from "$lib/localSettings";
 
     let chartCanvas: HTMLCanvasElement | null;
 
     onMount(() => {
-        // initial setting of services
+        let setAccessTokenParam = "setAccessToken";
+        let queryString = window.location.search;
+        let queryParams = new URLSearchParams(queryString);
+
+        if (queryParams.has(setAccessTokenParam)) {
+            let newAccessToken = queryParams.get(setAccessTokenParam) ?? "";
+
+            $appState.accessToken = newAccessToken;
+
+            const url = new URL(window.location.href);
+            url.search = '';
+
+            window.history.replaceState({}, document.title, url);
+            saveLocalSettings();
+            toast.success("Access token has been set successfully");
+        }
 
         if (chartCanvas == null) {
             throw new Error("chart canvas element does not exist.");
         }
 
-        chart = setupChart(chartCanvas);
+        $appState.chart = setupChart(chartCanvas);
 
-        const testHistoryData: Measurement[] = [
-            { timestamp: "14:32", moisture: 75, temperature: 24 },
-            { timestamp: "15:02", moisture: 72, temperature: 24.5 },
-            { timestamp: "15:32", moisture: 50, temperature: 24.4 },
-            { timestamp: "16:02", moisture: 30, temperature: 28 },
-            { timestamp: "16:32", moisture: 80, temperature: 18 },
-            { timestamp: "17:02", moisture: 95, temperature: 15 },
-            { timestamp: "17:32", moisture: 70, temperature: 10 },
-            { timestamp: "18:02", moisture: 69, temperature: 30 },
-            { timestamp: "18:32", moisture: 43, temperature: 23 },
-            { timestamp: "19:02", moisture: 10, temperature: 25 },
-        ];
-
-        $appState.measurements = testHistoryData;
-
-        setChartData(chart, testHistoryData);
-
-        loadAccessToken();
+        loadLocalSettings();
 
         // will reconnect automatically
         $appState.wsClient = initWebSocket($appState.wsUrl);
     });
 
-    $: activeModeId = $appState.activeModeId;
+    let modePreviewId = $appState.activeModeId ?? 0;
 
-    $: $appState.smartIdeal && setChartGuide(chart, "idealLine", $appState.smartIdeal)
-    $: $appState.smartThreshold && setChartGuide(chart, "thresholdLine", $appState.smartThreshold)
-
-    let modePreviewId = activeModeId ?? 0;
+    $: activePreviewMode = modes.find(m => m.id === modePreviewId) ?? modes[0];
 </script>
 
 <Navigation />
 
+<Toaster position="bottom-left" />
+
 <main class="flex-[1] grid lg:grid-cols-main grid-cols-1 gap-8 w-nav py-8">
-    <div class="m-auto w-full flex flex-col justify-center gap-4">
+    <div class="m-auto w-full flex flex-col justify-center gap-4 mt-0">
         <!-- <div> -->
         <!--   <div class="flex justify-center items-center gap-1 text-4xl"> -->
         <!--       <i class="ph-fill ph-drop text-3xl text-blue-500"></i> -->
@@ -85,13 +81,13 @@
     <div class="flex flex-col gap-8">
         <ModeSelector bind:previewId={modePreviewId} />
 
-        <ModePage mode={modes[modePreviewId]} previewModeId={modePreviewId}>
-            {#if modePreviewId === 0}
-                <ManualPage />
-            {:else if modePreviewId === 1}
-                <TimerPage />
-            {:else if modePreviewId === 2}
-                <SmartPage />
+        <ModePage mode={activePreviewMode} previewModeId={modePreviewId} let:debouncedSave>
+            {#if modePreviewId === "MANUALLY"}
+                <ManualPage {debouncedSave} />
+            {:else if modePreviewId === "TIMED"}
+                <TimerPage {debouncedSave} />
+            {:else if modePreviewId === "INTELLIGENT"}
+                <SmartPage {debouncedSave} />
             {/if}
         </ModePage>
     </div>

@@ -1,7 +1,10 @@
 <script lang="ts">
+    import { setChartGuide } from "$lib/chart/chartUtils";
     import Slider from "$lib/shadcn/ui/slider/slider.svelte";
     import { modes } from "../../lib/models/modes";
     import { appState } from "../../lib/stores";
+
+    export let debouncedSave: () => void;
 
     // TODO: make this a server side setting
     const MIN_DIFFERENCE = 10;
@@ -24,6 +27,9 @@
         }
 
         $appState.smartIdeal = newIdeal;
+        setChartGuide($appState.chart, "idealLine", newIdeal);
+
+        debouncedSave();
     }
 
     function onThresholdChange(newValues: number[]) {
@@ -34,29 +40,32 @@
         }
 
         $appState.smartThreshold = newThreshold;
+        setChartGuide($appState.chart, "thresholdLine", newThreshold);
+
+        debouncedSave();
     }
 </script>
 
 <div class="relative">
     <label for="medium-range" class="block mb-2 text-sm font-medium text-gray-900">
         Ideal Moisture Content
-        <span class="text-gray-500">&mdash; {$appState.smartIdeal} %</span>
+        <span class="text-gray-500">&mdash; {$appState.smartIdeal}%</span>
     </label>
 
     <Slider class="cursor-pointer" value={[$appState.smartIdeal]} onValueChange={onIdealChange} step={IDEAL_STEP} min={MIN_IDEAL} max={MAX_IDEAL} />
 
-    <span class="text-sm text-gray-500 absolute start-0 -bottom-6">{MIN_IDEAL} %</span>
-    <span class="text-sm text-gray-500 absolute end-0 -bottom-6">{MAX_IDEAL} %</span>
+    <span class="text-sm text-gray-500 absolute start-0 -bottom-6">{MIN_IDEAL}%</span>
+    <span class="text-sm text-gray-500 absolute end-0 -bottom-6">{MAX_IDEAL}%</span>
 </div>
 
 <div class="relative">
     <label for="medium-range" class="block mb-2 text-sm font-medium text-gray-900">
         Moisture Threshold
-        <span class="text-gray-500">&mdash; {$appState.smartThreshold} %</span>
+        <span class="text-gray-500">&mdash; {$appState.smartThreshold}%</span>
     </label>
 
     <Slider class="cursor-pointer" value={[$appState.smartThreshold]} onValueChange={onThresholdChange} step={THRESHOLD_STEP} min={MIN_THRESHOLD} max={MAX_THRESHOLD} />
 
-    <span class="text-sm text-gray-500 absolute start-0 -bottom-6">{MIN_THRESHOLD} %</span>
-    <span class="text-sm text-gray-500 absolute end-0 -bottom-6">{MAX_THRESHOLD} %</span>
+    <span class="text-sm text-gray-500 absolute start-0 -bottom-6">{MIN_THRESHOLD}%</span>
+    <span class="text-sm text-gray-500 absolute end-0 -bottom-6">{MAX_THRESHOLD}%</span>
 </div>
