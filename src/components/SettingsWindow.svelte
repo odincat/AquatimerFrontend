@@ -39,9 +39,13 @@
 
     let message = serializeMessage("changePlantSettings", newServerSettings);
 
-    useWebSocket(conn => {
+    let result = useWebSocket(conn => {
       conn.send(message);
     });
+
+    if (result) {
+      unsavedServerSettings = false;
+    }
   }
 </script>
  
@@ -114,7 +118,7 @@
         <div class="grid grid-cols-5 items-center gap-4">
           <Label for="ws-url" class="text-right">
             Measure&shy;ment Interval
-            <i class="text-gray-500">s</i>
+            <i class="text-gray-500">m</i>
           </Label>
           <Input id="ws-url" bind:value={$appState.measurementIntervalMinutes} on:input={raiseUnsavedServerSettings} type="number" inputmode="numeric" class="col-span-4" />
         </div>

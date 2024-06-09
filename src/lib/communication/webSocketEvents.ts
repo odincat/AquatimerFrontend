@@ -2,7 +2,7 @@ import toast from "svelte-french-toast";
 import { appState } from "../stores";
 import { deserializeMessage } from "./parsing";
 import type { Measurement } from "$lib/models/measurement";
-import { pushChartData, setChartData } from "$lib/chart/chartUtils";
+import { pushChartData, setChartData, setChartGuide } from "$lib/chart/chartUtils";
 
 export function initWebSocket(url: string): WebSocket {
     var ws = new WebSocket(url);
@@ -37,19 +37,39 @@ export function onMessage(v: MessageEvent) {
     switch (message.actionName) {
         case "initialData": {
             let payload = message.payload as InitialData;
+            console.log(payload)
+
+            let parsedMeasurements = JSON.parse(payload.data) as ServerMeasurement[];
 
             appState.update(as => {
                 //as.timerIntervalHours = payload.settings.intervalTimer;
                 // as.timerWateringDurationSeconds = payload.settings.wateringDuration;
                 // as.smartThreshold = payload.settings.threshold;
-                as.measurementIntervalMinutes = payload.settings.measurementTimer;
                 as.activeModeId = payload.mode;
-                console.log(payload.mode)
 
-                let convertedMeasurements = payload.data.map(m => {
+                as.measurementIntervalMinutes = payload.settings.measurementTimer;
+                as.smartThreshold = payload.settings.threshold;
+                as.smartIdeal = payload.settings.ideal;
+
+                setChartGuide(as.chart, "thresholdLine", payload.settings.threshold);
+                setChartGuide(as.chart, "idealLine", payload.settings.ideal);
+
+                as.manualWateringDurationSeconds = payload.settings.wateringDurationManually;
+                as.timerWateringDurationSeconds = payload.settings.wateringDurationTimed;
+                as.timerIntervalHours = payload.settings.Timedinterval
+
+
+                console.log(typeof(JSON.parse(payload.data)))
+                console.log(JSON.parse(payload.data))
+
+                let convertedMeasurements = parsedMeasurements.map(m => {
+                    let splitTime = m.time.split(":");
+                    splitTime.pop()
+                    let timestamp = splitTime.join(":");
+
                     let convertedMeasurement: Measurement = {
                         moisture: m.measurement,
-                        timestamp: m.time,
+                        timestamp: timestamp,
                         temperature: 69
                     };
                     
@@ -66,11 +86,17 @@ export function onMessage(v: MessageEvent) {
 
         case "publishMeasurement": {
             let payload = message.payload as PublishMeasurement;
+            let data = JSON.parse(payload.data) as ServerMeasurement;
+            console.log(payload)
+            console.log(data)
 
             appState.update(as => {
+                let splitTime = data.time.split(":");
+                splitTime.pop()
+                let timestamp = splitTime.join(":");
                 let convertedMeasurement: Measurement = {
-                    moisture: payload.data.measurement,
-                    timestamp: payload.data.time,
+                    moisture: data.measurement,
+                    timestamp: timestamp,
                     temperature: 69
                 };
 
@@ -145,6 +171,9 @@ export function onMessage(v: MessageEvent) {
             appState.update(as => {
                 as.smartIdeal = payload.ideal;
                 as.smartThreshold = payload.threshold;
+
+                setChartGuide(as.chart, "idealLine", payload.ideal);
+                setChartGuide(as.chart, "thresholdLine", payload.threshold);
 
                 return as;
             });

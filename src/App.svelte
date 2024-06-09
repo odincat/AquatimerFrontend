@@ -47,6 +47,8 @@
 
         $appState.chart = setupChart(chartCanvas);
 
+        $appState.chart.update();
+
         loadLocalSettings();
 
         // will reconnect automatically

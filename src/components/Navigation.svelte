@@ -46,11 +46,11 @@
         <h1>Aquatimer</h1>
     </div>
 
-    <div class="px-2 py-1 flex items-center w-full gap-4">
+    <div class="px-2 py-1 flex sm:flex-row flex-col sm:items-center items-end w-full gap-4">
         <div class="flex items-center gap-1 text-cyan-400">
             <i class="ph ph-drop text-xl"></i>
             <b>
-                {currentMeasurement?.moisture ?? 0} %
+                {currentMeasurement?.moisture.toFixed(1) ?? 0} %
             </b>
         </div>
 
@@ -70,7 +70,7 @@
 
         <div class="flex items-center gap-1" class:text-slate-500={pumpActive === false} class:text-green-500={pumpActive === true}>
             <i class="ph-fill text-xl" class:animate-pulse={pumpActive} class:ph-lightning={pumpActive} class:ph-lightning-slash={!pumpActive}></i>
-            <div>
+            <div class="text-inherit">
                 {#if $appState.pumpActive}
                     Pump Active
                 {:else}

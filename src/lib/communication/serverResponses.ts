@@ -4,13 +4,17 @@ interface ServerMeasurement {
 }
 
 interface InitialData {
-    data: ServerMeasurement[];
+    data: string;
     mode: string;
     settings: {
         intervalTimer: number;
         measurementTimer: number;
         wateringDuration: number;
         threshold: number;
+        ideal: number;
+        wateringDurationManually: number;
+        wateringDurationTimed: number;
+        Timedinterval: number;
     }
 }
 
@@ -41,5 +45,5 @@ interface PublishPumpState {
 }
 
 interface PublishMeasurement {
-    data: ServerMeasurement;
+    data: string;
 }

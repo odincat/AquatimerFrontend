@@ -45,7 +45,7 @@
         } else if (previewModeId === "MANUALLY"){
             actionName = "changeManualModeSettings";
             payload = {
-                manualWateringDurationSeconds: $appState.manualWateringDurationSeconds
+                manualWateringDuration: $appState.manualWateringDurationSeconds
             };
         } else {
             return;

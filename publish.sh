@@ -3,7 +3,7 @@
 # Variables
 LOCAL_DIR="/home/odincat/code/personal/aquatimer/frontend/dist"
 REMOTE_USER="pi"
-REMOTE_HOST="192.168.168.100"
+REMOTE_HOST="192.168.168.102"
 REMOTE_DIR="/home/pi/aquatimer/static"
 
 # Check if local directory exists

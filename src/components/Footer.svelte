@@ -13,17 +13,17 @@
     <div class="flex items-center justify-center gap-2">
       <div>
         min: 
-        <b>{minMaxValues.moisture.min} %</b>
+        <b>{minMaxValues.moisture.min.toFixed(1)} %</b>
       </div>
 
       <div>
         avg:
-        <b>{minMaxValues.moisture.avg} %</b>
+        <b>{minMaxValues.moisture.avg.toFixed(1)} %</b>
       </div>
 
       <div>
         max: 
-        <b>{minMaxValues.moisture.max} %</b>
+        <b>{minMaxValues.moisture.max.toFixed(1)} %</b>
       </div>
     </div>
   </div>
