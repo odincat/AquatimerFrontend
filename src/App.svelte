@@ -20,14 +20,16 @@
     import SmartPage from "./components/modes/SmartPage.svelte";
     import toast, { Toaster } from "svelte-french-toast";
     import { loadLocalSettings, saveLocalSettings } from "$lib/localSettings";
+    import QRCodeDisplay from "./components/QRCodeDisplay.svelte";
 
     let chartCanvas: HTMLCanvasElement | null;
+    let showQRCode = false;
 
     onMount(() => {
-        let setAccessTokenParam = "setAccessToken";
         let queryString = window.location.search;
         let queryParams = new URLSearchParams(queryString);
 
+        let setAccessTokenParam = "setAccessToken";
         if (queryParams.has(setAccessTokenParam)) {
             let newAccessToken = queryParams.get(setAccessTokenParam) ?? "";
 
@@ -39,6 +41,10 @@
             window.history.replaceState({}, document.title, url);
             saveLocalSettings();
             toast.success("Access token has been set successfully");
+        }
+
+        if (queryParams.has("showQRCode")) {
+            showQRCode = true;
         }
 
         if (chartCanvas == null) {
@@ -92,6 +98,10 @@
                 <SmartPage {debouncedSave} />
             {/if}
         </ModePage>
+
+        {#if showQRCode}
+            <QRCodeDisplay />
+        {/if}
     </div>
 </main>
 

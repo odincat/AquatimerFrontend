@@ -7,14 +7,17 @@ interface InitialData {
     data: string;
     mode: string;
     settings: {
-        intervalTimer: number;
         measurementTimer: number;
-        wateringDuration: number;
         threshold: number;
         ideal: number;
         wateringDurationManually: number;
         wateringDurationTimed: number;
         Timedinterval: number;
+    };
+    plantSettings: {
+        pumpOffset: number;
+        soilWeight: number;
+        waterPumpGPS: number;
     }
 }
 

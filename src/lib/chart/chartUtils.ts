@@ -34,6 +34,9 @@ export function setChartGuide(chart: CChart, line: "thresholdLine" | "idealLine"
         return;
     }
 
+    // TODO: maybe reintroduce
+    if (line === "idealLine") return;
+
     chart.options.plugins.annotation.annotations[line].yMin = value;
     chart.options.plugins.annotation.annotations[line].yMax= value;
 

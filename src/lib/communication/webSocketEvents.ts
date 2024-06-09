@@ -58,9 +58,7 @@ export function onMessage(v: MessageEvent) {
                 as.timerWateringDurationSeconds = payload.settings.wateringDurationTimed;
                 as.timerIntervalHours = payload.settings.Timedinterval
 
-
-                console.log(typeof(JSON.parse(payload.data)))
-                console.log(JSON.parse(payload.data))
+                as.pumpOffsetS = payload.plantSettings.pumpOffset;
 
                 let convertedMeasurements = parsedMeasurements.map(m => {
                     let splitTime = m.time.split(":");

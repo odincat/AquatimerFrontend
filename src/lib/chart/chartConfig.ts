@@ -118,24 +118,24 @@ export const chartConfig = {
               }
             },
           },
-          idealLine: {
-            type: 'line',
-            yMin: 85,
-            yMax: 85,
-            borderColor: '#22c55e',
-            borderWidth: 2,
-            label: {
-              display: true,
-              content: "Ideal",
-              position: "start",
-              backgroundColor: '#22c55e',
-              color: "rgb(255, 255, 255)",
-              padding: {
-                x: 10,
-                y: 5
-              }
-            },
-          }
+          // idealLine: {
+          //   type: 'line',
+          //   yMin: 85,
+          //   yMax: 85,
+          //   borderColor: '#22c55e',
+          //   borderWidth: 2,
+          //   label: {
+          //     display: true,
+          //     content: "Ideal",
+          //     position: "start",
+          //     backgroundColor: '#22c55e',
+          //     color: "rgb(255, 255, 255)",
+          //     padding: {
+          //       x: 10,
+          //       y: 5
+          //     }
+          //   },
+          // }
         }
       }
     }

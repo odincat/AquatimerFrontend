@@ -26,6 +26,7 @@ export interface AppState {
     // grams per second
     flowRateGPS: number;
     soilWeightG: number;
+    pumpOffsetS: number;
 
     manualWateringDurationSeconds: number;
 
@@ -41,7 +42,7 @@ export const DEFAULT_APP_STATE: AppState = {
     wsUrl: "wss://aquatimer.tech-cat.dev/ws/",
     //wsUrl: "ws://localhost:8080",
     wsReconnectIntervalId: null,
-    wsReconnectIntervalMs: 5000,
+    wsReconnectIntervalMs: 2000,
 
     accessToken: "",
 
@@ -57,6 +58,7 @@ export const DEFAULT_APP_STATE: AppState = {
     measurementIntervalMinutes: 12,
     flowRateGPS: 12,
     soilWeightG: 2000,
+    pumpOffsetS: 0,
 
     manualWateringDurationSeconds: 5,
 

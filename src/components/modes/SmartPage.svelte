@@ -13,9 +13,9 @@
     const MAX_IDEAL = 90;
     const IDEAL_STEP = 5;
 
-    const MIN_THRESHOLD = 10;
-    const MAX_THRESHOLD = MAX_IDEAL - MIN_DIFFERENCE;
-    const THRESHOLD_STEP = 5;
+    const MIN_THRESHOLD = 5;
+    const MAX_THRESHOLD = 30;
+    const THRESHOLD_STEP = 1;
 
     let mode = modes[1];
 
@@ -46,17 +46,17 @@
     }
 </script>
 
-<div class="relative">
-    <label for="medium-range" class="block mb-2 text-sm font-medium text-gray-900">
-        Ideal Moisture Content
-        <span class="text-gray-500">&mdash; {$appState.smartIdeal}%</span>
-    </label>
-
-    <Slider class="cursor-pointer" value={[$appState.smartIdeal]} onValueChange={onIdealChange} step={IDEAL_STEP} min={MIN_IDEAL} max={MAX_IDEAL} />
-
-    <span class="text-sm text-gray-500 absolute start-0 -bottom-6">{MIN_IDEAL}%</span>
-    <span class="text-sm text-gray-500 absolute end-0 -bottom-6">{MAX_IDEAL}%</span>
-</div>
+<!-- <div class="relative"> -->
+<!--     <label for="medium-range" class="block mb-2 text-sm font-medium text-gray-900"> -->
+<!--         Ideal Moisture Content -->
+<!--         <span class="text-gray-500">&mdash; {$appState.smartIdeal}%</span> -->
+<!--     </label> -->
+<!---->
+<!--     <Slider class="cursor-pointer" value={[$appState.smartIdeal]} onValueChange={onIdealChange} step={IDEAL_STEP} min={MIN_IDEAL} max={MAX_IDEAL} /> -->
+<!---->
+<!--     <span class="text-sm text-gray-500 absolute start-0 -bottom-6">{MIN_IDEAL}%</span> -->
+<!--     <span class="text-sm text-gray-500 absolute end-0 -bottom-6">{MAX_IDEAL}%</span> -->
+<!-- </div> -->
 
 <div class="relative">
     <label for="medium-range" class="block mb-2 text-sm font-medium text-gray-900">

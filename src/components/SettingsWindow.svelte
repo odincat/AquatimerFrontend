@@ -34,7 +34,8 @@
     let newServerSettings = {
       flowRateGPS: $appState.flowRateGPS,
       soilWeightG: $appState.soilWeightG,
-      measurementIntervalMinutes: $appState.measurementIntervalMinutes
+      measurementIntervalMinutes: $appState.measurementIntervalMinutes,
+      waterPumpOffset: $appState.pumpOffsetS
     };
 
     let message = serializeMessage("changePlantSettings", newServerSettings);
@@ -121,6 +122,16 @@
             <i class="text-gray-500">m</i>
           </Label>
           <Input id="ws-url" bind:value={$appState.measurementIntervalMinutes} on:input={raiseUnsavedServerSettings} type="number" inputmode="numeric" class="col-span-4" />
+        </div>
+      </div>
+
+      <div class="grid gap-4 pb-4">
+        <div class="grid grid-cols-5 items-center gap-4">
+          <Label for="ws-url" class="text-right">
+            Pump Offset
+            <i class="text-gray-500">s</i>
+          </Label>
+          <Input id="ws-url" bind:value={$appState.pumpOffsetS} on:input={raiseUnsavedServerSettings} type="number" inputmode="numeric" class="col-span-4" />
         </div>
       </div>
     </div>
