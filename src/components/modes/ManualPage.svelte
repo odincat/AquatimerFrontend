@@ -53,7 +53,7 @@
             &mdash;
             {$appState.manualWateringDurationSeconds}s
             &asymp;
-            {$appState.manualWateringDurationSeconds * $appState.flowRateGPS}g
+            {($appState.manualWateringDurationSeconds * $appState.flowRateGPS).toFixed(1)}g
         </span>
     </label>
 
@@ -63,7 +63,7 @@
     <span class="text-sm text-gray-500 absolute end-0 -bottom-6">{MAX_WATERING_DURATION_SECONDS}s</span>
 </div>
 
-<div class:disabled-area={$appState.activeModeId !== "MANUALLY"} class="flex flex-col gap-2">
+<div class:disabled-area={$appState.activeModeId !== "MANUALLY" || $appState.accessToken === ""} class="flex flex-col gap-2">
     {#if !$appState.pumpActive}
         <Button on:click={() => toggleWatering(true)}>
             <i class="ph ph-drop text-lg mr-1"></i>

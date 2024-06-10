@@ -50,3 +50,9 @@ interface PublishPumpState {
 interface PublishMeasurement {
     data: string;
 }
+
+interface PublishPlantConfiguration {
+    soilWeight: number;
+    waterPumpGPS: number;
+    waterPumpOffset: number;
+}

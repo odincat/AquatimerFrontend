@@ -1,6 +1,6 @@
 import type { Chart, ChartTypeRegistry } from "chart.js";
 import type { Measurement } from "./measurement";
-import type { WateringStopwatchExports } from "./WateringStopwatch";
+import type { WateringStopwatchExports } from "src/components/modes/WateringStopwatch";
 
 export type WebSocketConnection = "CONNECTING" | "CONNECTED" | "DISCONNECTED";
 
@@ -16,6 +16,7 @@ export interface AppState {
     lastMessage: Date | null;
     url: string;
     wateringStopwatch: WateringStopwatchExports | null;
+    wateringStopwatchResetTimeout: number;
     chart: Chart<keyof ChartTypeRegistry, number[], string> | null;
 
     measurements: Measurement[];
@@ -50,15 +51,17 @@ export const DEFAULT_APP_STATE: AppState = {
     lastMessage: null,
     url: "",
     wateringStopwatch: null,
+    wateringStopwatchResetTimeout: 0,
+    chart: null,
 
     measurements: [],
 
     activeModeId: "MANUALLY",
     pumpActive: false,
     measurementIntervalMinutes: 12,
-    flowRateGPS: 12,
+    flowRateGPS: 39.52,
     soilWeightG: 2000,
-    pumpOffsetS: 0,
+    pumpOffsetS: 6,
 
     manualWateringDurationSeconds: 5,
 

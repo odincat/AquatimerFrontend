@@ -11,6 +11,11 @@ export function pushChartData(chart: CChart, measurements: Measurement[]) {
     chart.data.labels.push(...measurements.map(m => m.timestamp));
 
     chart.data.datasets[0].data.push(...measurements.map(m => m.moisture));
+
+    let measurementsWithOccurredWatering = measurements
+        .filter(m => m.wateringOccurred === true)
+        .map(m => m.moisture);
+    chart.data.datasets[1].data.push(...measurementsWithOccurredWatering);
     //chart.data.datasets[1].data.push(...measurements.map(m => m.temperature));
 
     chart.update();
@@ -24,6 +29,12 @@ export function setChartData(chart: CChart, measurements: Measurement[]) {
     chart.data.labels = measurements.map(m => m.timestamp);
 
     chart.data.datasets[0].data = measurements.map(m => m.moisture);
+
+    let measurementsWithOccurredWatering = measurements
+        .filter(m => m.wateringOccurred === true)
+        .map(m => m.moisture);
+    chart.data.datasets[1].data = measurementsWithOccurredWatering;
+
     //chart.data.datasets[1].data = measurements.map(m => m.temperature);
 
     chart.update();

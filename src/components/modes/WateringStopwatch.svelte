@@ -37,12 +37,15 @@
         };
     });
 
+    $: sPassed = (msPassed / 1000) - $appState.pumpOffsetS;
+
     export { start, stop, reset }
 </script>
 
-{#if msPassed !== 0}
+{#if sPassed > 0}
+    &mdash;
     <div class="tabular-nums {className}">
-        {formatTime(Math.floor(msPassed / 1000))}s
+        {formatTime(Math.floor(sPassed))}s
         &asymp;
         {((msPassed / 1000) * $appState.flowRateGPS).toFixed(1)}g
     </div>

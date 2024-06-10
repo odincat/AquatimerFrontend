@@ -67,7 +67,7 @@
             &mdash;
             {$appState.timerWateringDurationSeconds}s
             &asymp;
-            {$appState.timerWateringDurationSeconds * $appState.flowRateGPS}g
+            {($appState.timerWateringDurationSeconds * $appState.flowRateGPS).toFixed(1)}g
         </span>
     </label>
 

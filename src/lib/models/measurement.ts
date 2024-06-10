@@ -2,7 +2,8 @@ export interface Measurement {
   timestamp: string;
   moisture: number;
   temperature: number;
-// TODO: temperature & air moisture
+  wateringOccurred: boolean;
+  // TODO: temperature & air moisture
 }
 
 interface MinMaxAvgValues {

@@ -5,6 +5,7 @@ const AXIS_LABEL_FONTSIZE = 24;
 const AXIS_LABEL_PADDING = 10;
 const MOISTURE_LINE_COLOR = "rgb(34, 211, 238)";
 const TEMPERATURE_LINE_COLOR = "rgb(234, 88, 12)";
+const WATERINGS_POINT_COLOR = "#22c55e";
 
 export function setupChart(canvasElement: HTMLCanvasElement): Chart<keyof ChartTypeRegistry, number[], string> {
   Chart.register(annotationPlugin);
@@ -21,12 +22,26 @@ export const chartConfig = {
     datasets: [
       {
         label: 'Moisture Content',
+        type: "line",
         data: [],
         fill: false,
         borderColor: MOISTURE_LINE_COLOR,
         tension: 0.1,
-        yAxisID: 'y'
+        yAxisID: 'y',
+        order: 1
       },
+      {
+        label: "Watering Occured",
+        type: "scatter",
+        data: [],
+        fill: false,
+        borderColor: "rgba(0, 0, 0, 0)",
+        yAxisID: "y",
+        pointStyle: 'rectRot',
+        pointRadius: 7,
+        backgroundColor: WATERINGS_POINT_COLOR,
+        order: 0
+      }
       // {
       //   label: 'Temperature',
       //   data: [],

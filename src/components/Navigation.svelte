@@ -4,28 +4,12 @@
     import { modes } from "../lib/models/modes";
     import { appState } from "../lib/stores";
     import WateringStopwatch from "./modes/WateringStopwatch.svelte";
-    import type { WateringStopwatchExports } from "./modes/WateringStopwatch.svelte";
 
     $: activeMode = modes.find(m => m.id === $appState.activeModeId) ?? modes[0];
     $: pumpActive = $appState.pumpActive;
 
     let navbar: Element | null = null;
     let stuck = false;
-    let stopwatch: WateringStopwatchExports | null;
-
-    let resetTimeout: number;
-
-    appState.subscribe(as => {
-        if (as.pumpActive) {
-            stopwatch?.start();
-            clearTimeout(resetTimeout)
-        } else {
-            stopwatch?.stop();
-            resetTimeout = setTimeout(() => {
-                stopwatch?.reset();
-            }, 20000);
-        }
-    })
 
     onMount(() => {
         if (navbar != null) {
@@ -78,7 +62,7 @@
                 {/if}
             </div>
 
-            <!-- <WateringStopwatch bind:this={$appState.wateringStopwatch} /> -->
+            <WateringStopwatch bind:this={$appState.wateringStopwatch} />
         </div>
 
         <div class="ml-auto flex gap-4">

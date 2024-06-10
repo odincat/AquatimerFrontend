@@ -3,6 +3,7 @@ import { appState } from "../stores";
 import { deserializeMessage } from "./parsing";
 import type { Measurement } from "$lib/models/measurement";
 import { pushChartData, setChartData, setChartGuide } from "$lib/chart/chartUtils";
+import { get } from "svelte/store";
 
 export function initWebSocket(url: string): WebSocket {
     var ws = new WebSocket(url);
@@ -59,6 +60,8 @@ export function onMessage(v: MessageEvent) {
                 as.timerIntervalHours = payload.settings.Timedinterval
 
                 as.pumpOffsetS = payload.plantSettings.pumpOffset;
+                as.flowRateGPS = payload.plantSettings.waterPumpGPS;
+                as.soilWeightG = payload.plantSettings.soilWeight;
 
                 let convertedMeasurements = parsedMeasurements.map(m => {
                     let splitTime = m.time.split(":");
@@ -133,6 +136,25 @@ export function onMessage(v: MessageEvent) {
         case "publishPumpState": {
             let payload = message.payload as PublishPumpState;
 
+            let currentAppState = get(appState);
+
+            console.log("activating stopwatch")
+            if (payload.active) {
+                console.log("start")
+                currentAppState.wateringStopwatch?.start();
+                clearTimeout(currentAppState.wateringStopwatchResetTimeout);
+            } else {
+                console.log("stop")
+                currentAppState.wateringStopwatch?.stop();
+                    appState.update(as => {
+                        as.wateringStopwatchResetTimeout = setTimeout(() => {
+                            as.wateringStopwatch?.reset();
+                        }, 20000);
+
+                    return as;
+                });
+            }
+
             appState.update(as => {
                 as.pumpActive = payload.active;
                 return as
@@ -172,6 +194,19 @@ export function onMessage(v: MessageEvent) {
 
                 setChartGuide(as.chart, "idealLine", payload.ideal);
                 setChartGuide(as.chart, "thresholdLine", payload.threshold);
+
+                return as;
+            });
+        }
+        break;
+
+        case "publishPlantConfiguration": {
+            let payload = message.payload as PublishPlantConfiguration;
+
+            appState.update(as => {
+                as.flowRateGPS = payload.waterPumpGPS;
+                as.soilWeightG = payload.soilWeight;
+                as.pumpOffsetS = payload.waterPumpOffset;
 
                 return as;
             });
